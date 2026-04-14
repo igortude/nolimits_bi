@@ -1,35 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-/* =========================================================
-   NoLimits - custom.css (PREMIUM OVERHAUL)
-   ========================================================= */
-
 :root {
-  /* Premium Dark Theme Palette Baseado na Logo */
-  --nl-primary: #27b530;
-  --nl-secondary: #696360;
-  --nl-accent: #27b530;
+  /* Premium NoLimits Palette */
+  --nl-primary: #27b530;    /* Verde Logo */
+  --nl-secondary: #4a4a4a;  /* Cinza Elegante */
+  --nl-dark-bg: #0a0c10;
+  --nl-card-bg: rgba(255, 255, 255, 0.04);
+  --nl-border: rgba(255, 255, 255, 0.07);
   
-  --bg-gradient: linear-gradient(135deg, #090b14 0%, #1c1d21 100%);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --bg-gradient: radial-gradient(circle at top right, #1a1c24, #0a0c10);
   
-  --text-main: #f8f9fa;
-  --text-muted: #a0aabf;
+  --text-main: #f0f2f6;
+  --text-muted: #94a3b8;
   
-  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  --card-hover-shadow: 0 12px 40px 0 rgba(39, 181, 48, 0.15);
-  --radius: 16px;
+  --glow-primary: rgba(39, 181, 48, 0.4);
+  --glow-soft: rgba(39, 181, 48, 0.1);
   
-  --font-family: 'Inter', sans-serif;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* ================================
-   GLOBAL TYPOGRAPHY & BACKGROUND 
+   GLOBAL RESET & POLISH
    ================================ */
 html, body, [class*="css"] {
   font-family: var(--font-family) !important;
   color: var(--text-main);
+  selection-background-color: var(--nl-primary);
 }
 
 .stApp {
@@ -37,238 +34,117 @@ html, body, [class*="css"] {
   background-attachment: fixed !important;
 }
 
-/* Esconder footer e menu padrão do Streamlit para visual mais limpo */
+/* Esconder elementos desnecessários */
 footer, header[data-testid="stHeader"] {
-  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
 }
 
 /* ================================
-   HEADERS & TITLES
-   ================================ */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700 !important;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-}
-
-h1.header-inicial {
-  font-size: 2.8rem;
-  background: linear-gradient(to right, #27b530, #696360);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  font-weight: 800 !important;
-}
-
-h5.inicial {
-  font-size: 1.1rem;
-  color: var(--text-muted);
-  text-align: center;
-  margin-bottom: 2.5rem;
-  font-weight: 400 !important;
-}
-
-/* ================================
-   GLASSMORPHISM CARDS (METRICS)
+   METRIC CARDS (GLASSMORHISM 2.0)
    ================================ */
 div[data-testid="stMetric"] {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  padding: 20px 24px;
-  box-shadow: var(--card-shadow);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
-  height: 140px;
-  overflow: hidden;
-  position: relative;
-}
-
-div[data-testid="stMetric"]::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--nl-primary), var(--nl-secondary));
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  background: var(--nl-card-bg) !important;
+  border: 1px solid var(--nl-border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 24px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 div[data-testid="stMetric"]:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--card-hover-shadow);
-  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--nl-primary) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: 0 15px 40px var(--glow-soft) !important;
 }
 
-div[data-testid="stMetric"]:hover::before {
-  opacity: 1;
-}
-
-/* Metric Label */
 div[data-testid="stMetricLabel"] p {
-  font-size: 0.85rem !important;
-  font-weight: 600;
   color: var(--text-muted) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  font-size: 0.75rem !important;
 }
 
-/* Metric Value */
 div[data-testid="stMetricValue"] {
-  font-size: 2.2rem !important;
-  font-weight: 800 !important;
   color: #ffffff !important;
-  line-height: 1.2 !important;
-  text-shadow: 0 0 20px rgba(39, 181, 48, 0.3);
-}
-
-/* Metric Delta */
-div[data-testid="stMetricDelta"] {
-  font-size: 0.8rem !important;
-  font-weight: 500;
-  padding: 4px 10px !important;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 8px;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
+  font-weight: 800 !important;
+  font-size: 2rem !important;
+  margin: 4px 0 !important;
 }
 
 /* ================================
-   MODERN TABS NAVIGATION
+   TABS STYLING
    ================================ */
-div[data-testid="stTabs"] button[role="tab"] {
-  background-color: transparent !important;
-  border: none !important;
-  color: var(--text-muted) !important;
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  padding: 12px 24px !important;
-  transition: all 0.3s ease !important;
+div[data-testid="stTabs"] {
+  background: transparent !important;
+  padding-top: 20px;
 }
 
-div[data-testid="stTabs"] button[role="tab"]:hover {
-  color: #ffffff !important;
+div[data-testid="stTabs"] button[role="tab"] {
+  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+  margin-right: 8px !important;
+  border: none !important;
+  color: var(--text-muted) !important;
 }
 
 div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+  background: rgba(39, 181, 48, 0.1) !important;
   color: var(--nl-primary) !important;
   font-weight: 700 !important;
 }
 
-/* Animated Underline for Tabs */
-div[data-testid="stTabs"] div[data-baseweb="tab-highlight"],
-div[data-testid="stTabs"] span[data-baseweb="tab-highlight"] {
-  background: linear-gradient(90deg, var(--nl-primary), var(--nl-secondary)) !important;
-  height: 3px !important;
-  border-radius: 3px 3px 0 0;
-  transition: transform 400ms cubic-bezier(0.25, 1, 0.5, 1),
-              width 400ms cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-
-div[data-testid="stTabs"] div[data-baseweb="tab-border"],
-div[data-testid="stTabs"] span[data-baseweb="tab-border"] {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-div[data-testid="stTabs"] [role="tabpanel"] {
-  animation: fadeSlideUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(15px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 /* ================================
-   INPUT FIELDS (Premium Glow)
+   CHAT BUBBLES (MODERN MESSENGER)
    ================================ */
-div[data-testid="stTextInput"] div[data-baseweb="input"],
-div[data-testid="stTextInput"] div[data-baseweb="base-input"] {
-  background-color: rgba(0, 0, 0, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 12px !important;
-  color: #fff !important;
-  transition: all 0.3s ease !important;
-  font-family: var(--font-family);
-}
-
-div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within,
-div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
-  border-color: var(--nl-primary) !important;
-  box-shadow: 0 0 0 4px rgba(39, 181, 48, 0.15),
-              0 0 20px rgba(39, 181, 48, 0.2) !important;
-  background-color: rgba(0, 0, 0, 0.4) !important;
-}
-
-div[data-testid="stTextInput"] input {
-  font-size: 1.1rem;
-  padding: 12px 16px;
-}
-
-/* ================================
-   SIDEBAR & CHAT INTERFACE
-   ================================ */
-section[data-testid="stSidebar"] {
-  background: rgba(10, 14, 28, 0.8) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-}
-
 .stChatMessage {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  animation: fadeInChat 0.4s ease-out;
+  border-radius: 18px !important;
+  padding: 12px 18px !important;
+  border: 1px solid var(--nl-border) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  margin-bottom: 12px !important;
 }
 
-.stChatMessage [data-testid="stMarkdownContainer"] {
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-@keyframes fadeInChat {
-  from { opacity: 0; transform: scale(0.98) translateY(10px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+.stChatMessage[data-testid="stChatMessageUser"] {
+  background: rgba(39, 181, 48, 0.1) !important;
+  border-color: rgba(39, 181, 48, 0.2) !important;
 }
 
 /* ================================
-   IMAGE PLACEHOLDER
+   INPUTS & BUTTONS
    ================================ */
-.header-logo {
-  display: block;
-  margin: 0 auto 24px auto;
-  border-radius: 12px;
-  /* subtle glow behind logo */
-  box-shadow: 0 0 30px rgba(39, 181, 48, 0.2);
-  transition: transform 0.3s ease;
-}
-.header-logo:hover {
-  transform: scale(1.02);
-}
-
-/* ================================
-   CUSTOM DIVIDERS & INFO BLOCKS
-   ================================ */
-div[data-testid="stVerticalBlock"] > hr {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-div[data-testid="stAlert"] {
-  background: rgba(58, 123, 213, 0.1) !important;
-  border: 1px solid rgba(58, 123, 213, 0.3) !important;
+div[data-testid="stTextInput"] input {
+  background: #111418 !important;
+  border: 1px solid var(--nl-border) !important;
   border-radius: 12px !important;
-  color: #f8f9fa !important;
+  color: white !important;
+}
+
+div[data-testid="stTextInput"] input:focus {
+  border-color: var(--nl-primary) !important;
+  box-shadow: 0 0 15px var(--glow-soft) !important;
+}
+
+/* Custom logos and images */
+img {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+/* Scrollbar polish */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--nl-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nl-primary);
+}
 }

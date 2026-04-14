@@ -162,8 +162,13 @@ def perguntar(pergunta: str) -> dict:
 # ================================================================
 
 def render():
-    st.title("NoLimits IA")
-    st.caption("Assistente de dados do CT de Corrida")
+    st.markdown("""
+        <div style="text-align: center; padding: 20px 0;">
+            <h1 style="margin-bottom: 0;">🤖 NoLimits IA</h1>
+            <p style="color: #94a3b8; font-size: 1.1rem;">Especialista em Performance & Dados do CT</p>
+        </div>
+    """, unsafe_allow_html=True)
+    st.divider()
 
     # Inicializa histórico
     if "historico" not in st.session_state:

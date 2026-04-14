@@ -71,15 +71,24 @@ def render_grafico_presencas():
     
     fig = px.bar(
         df, x="Presenças", y="Aluno", orientation='h',
-        text="Presenças", color="Presenças",
-        color_continuous_scale="Greens", # Tons de verde
+        text="Presenças", 
+        color_discrete_sequence=['#27b530'], # Verde oficial NoLimits
         height=400
     )
     fig.update_layout(
-        yaxis=dict(autorange="reversed"),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='white'),
+        yaxis=dict(autorange="reversed", showgrid=False),
+        xaxis=dict(showgrid=False),
         showlegend=False,
-        coloraxis_showscale=False, # Remove a barra lateral para limpar o visual
         margin=dict(l=0, r=10, t=10, b=10)
+    )
+    fig.update_traces(
+        marker_color='#27b530',
+        marker_line_color='#1a1a1a',
+        marker_line_width=1,
+        opacity=0.9
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -111,18 +120,25 @@ def render_grafico_ausencias():
     # Usando escala de Vermelho/Laranja para indicar problema
     fig = px.bar(
         df, x="Faltas", y="Aluno", orientation="h",
-        text="Faltas", color="Faltas",
-        color_continuous_scale="Reds", 
+        text="Faltas",
+        color_discrete_sequence=['#ff4b4b'], # Vermelho para alerta
         height=400
     )
     
     fig.update_layout(
-        yaxis=dict(autorange="reversed"),
-        coloraxis_showscale=False, # Remove a barra lateral
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='white'),
+        yaxis=dict(autorange="reversed", showgrid=False),
+        xaxis=dict(showgrid=False),
         margin=dict(l=0, r=10, t=10, b=10)
     )
     
-    fig.update_traces(marker_line_color='rgb(150,0,0)', marker_line_width=1.5)
+    fig.update_traces(
+        marker_line_color='rgb(150,0,0)', 
+        marker_line_width=1.5,
+        opacity=0.8
+    )
     
     st.plotly_chart(fig, use_container_width=True, key="grafico_ausencias")
 
