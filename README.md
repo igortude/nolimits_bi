@@ -94,9 +94,7 @@ Este projeto contém scripts para garantir que nenhum dado sensível dos alunos 
 
 ---
 
-## 👥 Desenvolvedores
+## 👥 Desenvolvedor
 - Igor
-- Leonardo
-
 ---
 *Este projeto foi desenvolvido para otimizar a gestão e análise de desempenho do CT NoLimits.*
