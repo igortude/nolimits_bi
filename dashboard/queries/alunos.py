@@ -183,3 +183,30 @@ def get_alunos_por_plano():
         resultado[plano] = qtd
 
     return resultado
+
+def get_media_faltas_top_10():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    query="""
+        WITH ausencias AS (
+        SELECT aluno, COUNT(*) AS qt_ausencia
+        FROM dados_semana
+        WHERE dia <= '2025-11-01'
+        AND check_in = 'ausente'
+        GROUP BY aluno
+        ORDER BY qt_ausencia DESC
+        LIMIT 10
+    )
+        SELECT AVG(qt_ausencia)
+        FROM ausencias;
+    """
+
+    cursor.execute(query)
+    resultado = cursor.fetchone()[0]
+    conn.close()
+    
+    # Arredondando para ficar limpo
+    if resultado is not None:
+        return round(resultado, 1)
+    return 0

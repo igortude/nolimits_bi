@@ -66,3 +66,58 @@ def get_ticket_medio ():
     conn.close()
 
     return valor or 0
+
+def get_receita_por_plano():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT
+            p.nome,
+            SUM(p.preco_mensal) AS receita_total
+        FROM vinculos v
+        JOIN planos p ON p.id = v.plano_id
+        GROUP BY p.nome
+        ORDER BY receita_total DESC
+    """)
+
+    rows = cur.fetchall()
+    conn.close()
+
+    return {row[0]: row[1] or 0 for row in rows}
+
+def get_risco_financeiro_churn():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        WITH ausencias AS (
+            SELECT aluno, COUNT(*) AS qt_ausencia
+            FROM dados_semana
+            WHERE dia <= '2025-11-01'
+            AND check_in = 'ausente'
+            GROUP BY aluno
+            HAVING qt_ausencia >= 3
+        ),
+        alunos_risco AS (
+            SELECT a.id, p.preco_mensal
+            FROM ausencias au
+            JOIN alunos a ON a.nome = au.aluno
+            JOIN vinculos v ON v.aluno_id = a.id
+            JOIN planos p ON p.id = v.plano_id
+        )
+        SELECT SUM(preco_mensal) FROM alunos_risco
+    """)
+
+    valor = cur.fetchone()[0]
+    conn.close()
+
+    return valor or 0
+
+def get_dados_projecao():
+    # Retorna uma projeção simples estimando 5% a mais em vendas e perda de risco churn
+    faturamento_atual = get_faturamento_total()
+    risco = get_risco_financeiro_churn()
+    
+    receita_projetada = (faturamento_atual * 1.05) - risco
+    return faturamento_atual, risco, receita_projetada

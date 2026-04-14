@@ -10,18 +10,15 @@ from .queries.alunos import (
     get_top10_ausencias,
     get_alunos_por_plano,
     get_delta_ativos,
-    data_maxima
+    data_maxima,
+    get_media_faltas_top_10
 )
 
 def render():
-    st.markdown(
-        """
-        <div style="display:flex; justify-content:center; margin: 6px 0 10px 0;">
-            <img class="header-logo" src="https://via.placeholder.com/240x90?text=LOGO" />
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    # Exibe a logo original
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image("dashboard/logo.png", use_container_width=True)
 
     st.header("📊 NoLimits DashBoard")
     
@@ -97,7 +94,9 @@ def render_cards_negativos():
     col1.empty()
     col2.metric("Risco de Perda (Alunos)", len(top10_ausentes), delta="Atenção", delta_color="inverse")
     col3.metric("% Risco de Churn", f"{risco_churn:.1f}%", delta="Crítico", delta_color="inverse")
-    col4.metric("Média Faltas (Top 10)", "criar_função") # Exemplo estático
+    
+    media_faltas_top = get_media_faltas_top_10()
+    col4.metric("Média Faltas (Top 10)", f"{media_faltas_top} faltas")
     col5.empty()
 
 def render_grafico_ausencias():

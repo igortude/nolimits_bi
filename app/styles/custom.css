@@ -1,284 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 /* =========================================================
-   NoLimits - custom.css (REESCRITO)
+   NoLimits - custom.css (PREMIUM OVERHAUL)
    ========================================================= */
 
-/* ================================
-   Variáveis de tema (opcional)
-   ================================ */
-:root{
-  --nl-green: #34e89e;
-  --nl-dark: #0f3443;
-  --nl-gray: #434343;
-
-  --card-bg: #1e1e1e;
-  --text: #ffffff;
-  --muted: #cccccc;
-
-  --shadow: 0 3px 8px rgba(0,0,0,0.28);
+:root {
+  /* Premium Dark Theme Palette Baseado na Logo */
+  --nl-primary: #27b530;
+  --nl-secondary: #696360;
+  --nl-accent: #27b530;
+  
+  --bg-gradient: linear-gradient(135deg, #090b14 0%, #1c1d21 100%);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  --text-main: #f8f9fa;
+  --text-muted: #a0aabf;
+  
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --card-hover-shadow: 0 12px 40px 0 rgba(39, 181, 48, 0.15);
+  --radius: 16px;
+  
+  --font-family: 'Inter', sans-serif;
 }
 
 /* ================================
-   LOGO
+   GLOBAL TYPOGRAPHY & BACKGROUND 
    ================================ */
-.header-logo{
-  display: block;
-  margin: 0 auto 12px auto;
-  width: 130px;
-  height: auto;
+html, body, [class*="css"] {
+  font-family: var(--font-family) !important;
+  color: var(--text-main);
+}
+
+.stApp {
+  background: var(--bg-gradient) !important;
+  background-attachment: fixed !important;
+}
+
+/* Esconder footer e menu padrão do Streamlit para visual mais limpo */
+footer, header[data-testid="stHeader"] {
+  display: none !important;
 }
 
 /* ================================
-   HEADERS (tela inicial)
+   HEADERS & TITLES
    ================================ */
-h1.header-inicial{
-  font-family: Arial, sans-serif;
-  font-size: 2rem;
-  color: var(--nl-green);
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+h1.header-inicial {
+  font-size: 2.8rem;
+  background: linear-gradient(to right, #27b530, #696360);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-align: center;
   margin-bottom: 0.5rem;
+  font-weight: 800 !important;
 }
 
-h5.inicial{
-  font-size: 0.95rem;
-  color: var(--muted);
+h5.inicial {
+  font-size: 1.1rem;
+  color: var(--text-muted);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  font-weight: 400 !important;
 }
 
 /* ================================
-   DASHBOARD CONTAINER (fade in)
+   GLASSMORPHISM CARDS (METRICS)
    ================================ */
-.dashboard-container{
-  animation: fadeIn 0.6s ease-in-out;
+div[data-testid="stMetric"] {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  height: 140px;
+  overflow: hidden;
+  position: relative;
+}
+
+div[data-testid="stMetric"]::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--nl-primary), var(--nl-secondary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+div[data-testid="stMetric"]:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-hover-shadow);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+div[data-testid="stMetric"]:hover::before {
   opacity: 1;
 }
 
-@keyframes fadeIn{
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ================================
-   TABS - underline gradiente (cinza -> verde)
-   Aplica tanto nas tabs principais quanto nas internas.
-   ================================ */
-
-/* garante posicionamento para pseudo-elemento */
-div[data-baseweb="tab-list"] button[role="tab"]{
-  position: relative;
-  border-bottom: 0 !important; /* remove underline padrão */
-}
-
-/* underline custom no tab ativo */
-div[data-baseweb="tab-list"] button[role="tab"][aria-selected="true"]::after{
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -2px;
-  height: 3px;
-  background: linear-gradient(to right, var(--nl-gray), var(--nl-green));
-  border-radius: 3px;
-}
-
-/* ================================
-   CARDS - MÉTRICAS (menores + fontes menores)
-   ================================ */
-div[data-testid="stMetric"] > div{
-  background-color: var(--card-bg);
-  color: var(--text);
-  border-radius: 10px;
-  padding: 8px 10px;          /* menor */
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease;
-}
-
-div[data-testid="stMetric"] > div:hover{
-  transform: translateY(-2px);
-}
-
-/* label (título) menor */
-div[data-testid="stMetricLabel"] p{
-  font-size: 0.78rem !important;
-  opacity: 0.90;
-}
-
-/* valor menor */
-div[data-testid="stMetricValue"]{
-  font-size: 1.55rem !important;
-  line-height: 1.1 !important;
-}
-
-/* delta menor */
-div[data-testid="stMetricDelta"]{
-  font-size: 0.75rem !important;
-}
-
-/* ================================
-   CARDS (stMetric) - gradiente #232526 -> #414345 -> #232526
-   ================================ */
-div[data-testid="stMetric"] > div{
-  background-image: linear-gradient(to right, #191a1b 0%, #414345 51%, #232526 100%);
-  margin: 10px;
-  padding: 15px 20px;           /* menos padding lateral */
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: #35cd37;
-  box-shadow: 0 0 20px #1c8511;
-  border-radius: 10px;
-
-  /* 🔥 ESSENCIAL */
-  height: 140px;                /* fixa altura */
-  display: flex;                /* flex layout */
-  flex-direction: column;
-  justify-content: center;      /* centraliza verticalmente */
-}
-
-div[data-testid="stMetricDelta"]{
-  display: inline-flex !important;   /* não estica */
-  width: fit-content !important;     /* só o texto */
-  
-  padding: 2px 6px !important;       /* badge compacto */
-  margin-top: 6px;
-
-  font-size: 0.70rem !important;
-  font-weight: 500;
-  line-height: 1 !important;
-
-  align-self: center;                /* centraliza no card */
-  justify-content: center;
-
-  opacity: 0.85;
-  border-radius: 6px;
-}
-
-
-/* ================================
-   BOTÕES GRADIENTE (classe .btn-grad)
-   ================================ */
-.btn-grad{
-  background-image: linear-gradient(to right, var(--nl-green) 0%, var(--nl-dark) 51%, var(--nl-green) 100%);
-  margin: 10px;
-  padding: 12px 40px;     /* ajuste fino */
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: #ffffff;
-  box-shadow: 0 0 18px rgba(255,255,255,0.15);
-  border-radius: 10px;
-  display: block;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
-}
-
-.btn-grad:hover{
-  background-position: right center;
-  color: #fff;
-  text-decoration: none;
-}
-
-/* Se quiser o outro gradiente (56ab2f / a8e063), troque o background-image acima por:
-   background-image: linear-gradient(to right, #56ab2f 0%, #a8e063 51%, #56ab2f 100%);
-*/
-
-/* ================================
-   TEXT INPUT (Login) - borda verde + glow no foco
-   Requer: st.text_input("Nome", ..., label_visibility="collapsed")
-   ================================ */
-
-/* Streamlit desenha a borda geralmente no wrapper BaseWeb */
-div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within,
-div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within{
-  border-color: var(--nl-green) !important;
-  box-shadow: 0 0 0 3px rgba(52, 232, 158, 0.22),
-              0 0 14px rgba(52, 232, 158, 0.55) !important;
-}
-
-/* remove outline padrão do input */
-div[data-testid="stTextInput"] input:focus{
-  outline: none !important;
-}
-
-/* ================================
-   TABS - underline (highlight) gradiente
-   ================================ */
-
-/* Remove qualquer sublinhado/borda no tab em si */
-div[data-testid="stTabs"] button[role="tab"]{
-  border-bottom: 0 !important;
-  box-shadow: none !important;
-}
-
-/* O underline REAL (BaseWeb) costuma ser esse tab-highlight */
-div[data-testid="stTabs"] div[data-baseweb="tab-highlight"],
-div[data-testid="stTabs"] span[data-baseweb="tab-highlight"]{
-  background: linear-gradient(to right, #434343, #34e89e) !important;
-  height: 3px !important;
-}
-
-/* Em algumas versões, existe um "tab-border" que interfere */
-div[data-testid="stTabs"] div[data-baseweb="tab-border"],
-div[data-testid="stTabs"] span[data-baseweb="tab-border"]{
-  background: transparent !important;
-}
-
-/* ================================
-   TABS - cor do texto (remove vermelho)
-   ================================ */
-
-/* Cor padrão (tabs não selecionadas) */
-div[data-testid="stTabs"] button[role="tab"]{
-  color: #cfcfcf !important;
-}
-
-/* Garante que o texto interno herde a cor (algumas versões usam <p>, <span>, etc.) */
-div[data-testid="stTabs"] button[role="tab"] *{
-  color: inherit !important;
-}
-
-/* Tab ativa */
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"]{
-  color: #34e89e !important;
+/* Metric Label */
+div[data-testid="stMetricLabel"] p {
+  font-size: 0.85rem !important;
   font-weight: 600;
+  color: var(--text-muted) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
 }
 
-/* Hover (opcional) */
-div[data-testid="stTabs"] button[role="tab"]:hover{
-  color: #e8e8e8 !important;
+/* Metric Value */
+div[data-testid="stMetricValue"] {
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  line-height: 1.2 !important;
+  text-shadow: 0 0 20px rgba(39, 181, 48, 0.3);
+}
+
+/* Metric Delta */
+div[data-testid="stMetricDelta"] {
+  font-size: 0.8rem !important;
+  font-weight: 500;
+  padding: 4px 10px !important;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 8px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
 }
 
 /* ================================
-   TABS - animações mais fluidas
+   MODERN TABS NAVIGATION
    ================================ */
+div[data-testid="stTabs"] button[role="tab"] {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--text-muted) !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+}
 
-/* 1) Barrinha (highlight) com easing mais suave e mais lenta */
+div[data-testid="stTabs"] button[role="tab"]:hover {
+  color: #ffffff !important;
+}
+
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+  color: var(--nl-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* Animated Underline for Tabs */
 div[data-testid="stTabs"] div[data-baseweb="tab-highlight"],
-div[data-testid="stTabs"] span[data-baseweb="tab-highlight"]{
-  transition: transform 520ms cubic-bezier(.22, 1, .36, 1),
-              width     520ms cubic-bezier(.22, 1, .36, 1),
-              left      520ms cubic-bezier(.22, 1, .36, 1),
-              right     520ms cubic-bezier(.22, 1, .36, 1) !important;
-  will-change: transform, width, left, right;
+div[data-testid="stTabs"] span[data-baseweb="tab-highlight"] {
+  background: linear-gradient(90deg, var(--nl-primary), var(--nl-secondary)) !important;
+  height: 3px !important;
+  border-radius: 3px 3px 0 0;
+  transition: transform 400ms cubic-bezier(0.25, 1, 0.5, 1),
+              width 400ms cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
-/* 2) Texto das tabs com transição suave + feedback no clique */
-div[data-testid="stTabs"] button[role="tab"]{
-  transition: color 220ms ease, transform 140ms ease !important;
+div[data-testid="stTabs"] div[data-baseweb="tab-border"],
+div[data-testid="stTabs"] span[data-baseweb="tab-border"] {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-div[data-testid="stTabs"] button[role="tab"]:active{
-  transform: scale(0.97);
+div[data-testid="stTabs"] [role="tabpanel"] {
+  animation: fadeSlideUp 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* 3) Conteúdo do painel: entra com fade + leve slide (tira sensação de “corte”) */
-div[data-testid="stTabs"] [role="tabpanel"]{
-  animation: tabPanelIn 180ms ease-out;
-}
-
-@keyframes tabPanelIn{
-  from { opacity: 0; transform: translateY(6px); }
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(15px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   INPUT FIELDS (Premium Glow)
+   ================================ */
+div[data-testid="stTextInput"] div[data-baseweb="input"],
+div[data-testid="stTextInput"] div[data-baseweb="base-input"] {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+  font-family: var(--font-family);
+}
+
+div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within,
+div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
+  border-color: var(--nl-primary) !important;
+  box-shadow: 0 0 0 4px rgba(39, 181, 48, 0.15),
+              0 0 20px rgba(39, 181, 48, 0.2) !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+div[data-testid="stTextInput"] input {
+  font-size: 1.1rem;
+  padding: 12px 16px;
+}
+
+/* ================================
+   SIDEBAR & CHAT INTERFACE
+   ================================ */
+section[data-testid="stSidebar"] {
+  background: rgba(10, 14, 28, 0.8) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stChatMessage {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  animation: fadeInChat 0.4s ease-out;
+}
+
+.stChatMessage [data-testid="stMarkdownContainer"] {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+@keyframes fadeInChat {
+  from { opacity: 0; transform: scale(0.98) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ================================
+   IMAGE PLACEHOLDER
+   ================================ */
+.header-logo {
+  display: block;
+  margin: 0 auto 24px auto;
+  border-radius: 12px;
+  /* subtle glow behind logo */
+  box-shadow: 0 0 30px rgba(39, 181, 48, 0.2);
+  transition: transform 0.3s ease;
+}
+.header-logo:hover {
+  transform: scale(1.02);
+}
+
+/* ================================
+   CUSTOM DIVIDERS & INFO BLOCKS
+   ================================ */
+div[data-testid="stVerticalBlock"] > hr {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+div[data-testid="stAlert"] {
+  background: rgba(58, 123, 213, 0.1) !important;
+  border: 1px solid rgba(58, 123, 213, 0.3) !important;
+  border-radius: 12px !important;
+  color: #f8f9fa !important;
 }
