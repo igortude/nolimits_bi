@@ -1,100 +1,109 @@
-# 🏃 NoLimits BI - Centro de Treinamento
+# 🏃 NoLimits Intelligence BI - Predição de Churn e Análise de Retenção
 
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
 
-Uma solução de Business Intelligence robusta e inteligente desenvolvida para o **Centro de Treinamento de Corrida NoLimits**. O projeto unifica a visualização de métricas de negócios com um assistente de IA capaz de consultar dados em linguagem natural.
+---
+
+## 💡 Resumo do projeto
+
+O **NoLimits Intelligence BI** é uma solução completa de Business Intelligence e Data Science desenvolvida para o CT de Corrida NoLimits. O sistema utiliza **Machine Learning** para prever o cancelamento de alunos (churn), um **Dashboard Interativo** para acompanhamento de KPIs financeiros e um **Assistente de IA Conversacional** que permite consultas ao banco de dados em linguagem natural. 
+
+O projeto transforma dados brutos em decisões estratégicas, reduzindo a rotatividade e otimizando a receita do centro de treinamento.
 
 ---
 
-## 🚀 Funcionalidades Principais
+## ❓ Problema de negócio / contexto
 
-### 1. 🤖 NoLimits IA (Assistente de Dados)
-A joia da coroa do projeto. Utilizando **LangChain** e modelos **Llama 3.1 (via Ollama)**, o sistema permite consultas complexas ao banco de dados usando linguagem natural.
-- **Conversão Natural-para-SQL**: Transforma perguntas como *"Quem são os alunos ativos do plano premium?"* em queries SQLite otimizadas.
-- **Histórico de Interação**: Mantém o contexto das perguntas e permite navegação rápida por consultas anteriores.
-- **Segurança**: Filtros rígidos impedem comandos de modificação (DROP, DELETE, UPDATE) via chat.
+Centros de treinamento enfrentam um desafio constante: a **retenção de alunos**. A saída de um aluno não representa apenas uma perda de receita imediata, mas um aumento no custo de aquisição (CAC). 
 
-### 2. 📊 Painéis Interativos
-- **Painel Geral**: Visão consolidada de métricas operacionais e fluxo de alunos.
-- **Painel de Negócios**: Focado em saúde financeira, faturamentos e análise de planos.
-
-### 3. 🎨 Visual Moderno
-- Interface personalizada com **CSS customizado**.
-- Tematização profissional alinhada à identidade visual do CT NoLimits.
+**O desafio:** 
+- Identificar padrões de comportamento que precedem o cancelamento.
+- Automatizar a análise de saúde financeira (Faturamento e Ticket Médio).
+- Facilitar o acesso aos dados para gestores que não dominam SQL.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 📊 Dados utilizados
 
-- **Frontend/Core**: [Streamlit](https://streamlit.io/)
-- **Inteligência Artificial**: [LangChain](https://www.langchain.com/) + LLM Llama 3.1
-- **Banco de Dados**: SQLite
-- **Estilização**: CSS Customizado
+Os dados são armazenados em um banco de dados local **SQLite**, estruturado da seguinte forma:
+
+| Tabela | Descrição |
+|--------|-----------|
+| `alunos` | Informações cadastrais de cada aluno. |
+| `planos` | Detalhes dos planos (Standard, Premium, Ilimitado) e valores. |
+| `vinculos` | Histórico de contratos, datas de início/fim e status (Ativo/Cancelado). |
+| `dados_semana` | Registro detalhado de presenças (check-ins) para análise de frequência. |
+
+> [!NOTE]
+> Os dados originais são anonimizados via script (`anonimizar_dados.py`) para garantir a privacidade e segurança das informações.
 
 ---
 
-## ⚙️ Instalação e Configuração
+## 🛠️ Metodologia e ferramentas
+
+A solução foi construída em três camadas principais:
+
+1.  **ETL e Análise (Python & SQL)**: Extração de dados do SQLite, limpeza com **Pandas** e monitoramento via **Pipeline de Produção** (`pipeline.py`).
+2.  **Inteligência Preditiva (Machine Learning)**: Implementação de um modelo de **Regressão Logística** para prever o risco de churn baseado em *tenure* (tempo de casa) e frequência semanal.
+3.  **Visualização e IA (Streamlit & LangChain)**: 
+    *   Dashboard com KPIs financeiros dinâmicos.
+    *   Chatbot RAG (Retrieval-Augmented Generation) para consultas em linguagem natural.
+
+---
+
+## 📈 Principais insights e resultados (Data Case)
+
+Após a análise dos dados e execução do modelo, os seguintes resultados foram extraídos:
+
+- **Taxa de Churn Geral**: **27.2%** (Identificado nos últimos 120 dias).
+- **Fator de Risco Crítico**: Alunos com frequência menor que 2x/semana têm **2.3x mais chance** de cancelar.
+- **Faturamento**: R$ 52.349,00 com um **Ticket Médio** de R$ 887,27.
+- **Modelo de ML**: Acurácia de **88%** na predição de desertores.
+
+> [!IMPORTANT]
+> **Ação Recomendada**: Implementar um protocolo de "Onboarding Crítico" nos primeiros 45 dias de contrato para alunos com baixa frequência inicial. Veja mais em [`insights/acoes_estrategicas.md`](file:///home/igor/Documentos/GIT/NoLimitsBI/insights/acoes_estrategicas.md).
+
+---
+
+## 🚀 Como executar o projeto
 
 ### Pré-requisitos
 - Python 3.9+
-- [Ollama](https://ollama.ai/) instalado e rodando com o modelo `llama3.1`.
+- [Ollama](https://ollama.ai/) instalado (com modelo `llama3.1` ou superior).
 
-### Instruções
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/NoLimitsBI.git
-   cd NoLimitsBI
-   ```
-
-2. Crie e ative um ambiente virtual:
+### Instalação
+1. Clone o repositório e acesse a pasta.
+2. Crie e ative o ambiente virtual:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # No Windows: venv\Scripts\activate
+   source venv/bin/activate
    ```
-
 3. Instale as dependências:
    ```bash
    pip install -r requirements.txt
    ```
-
-4. Execute a aplicação:
+4. Execute o Pipeline para preparar os modelos:
+   ```bash
+   python pipeline.py
+   ```
+5. Inicie a aplicação:
    ```bash
    streamlit run app.py
    ```
 
 ---
 
-## 🔒 Segurança e Anonimização (Preparação para GitHub)
+## 🤝 Contato
 
-Este projeto contém scripts para garantir que nenhum dado sensível dos alunos seja exposto publicamente.
+Desenvolvido por **Igor** – *Analista de Dados & Desenvolvedor*
 
-### Scripts de Dados:
-- **`anonimizar_dados.py`**: Gera uma cópia segura (`data/nolimits_ai_public.db`) substituindo nomes reais por pseudônimos (ex: `Aluno_001`). **Sempre execute este script antes de subir atualizações do banco.**
-- **`seed_fake_data.py`**: Cria uma base de dados limpa com dados fictícios para fins de teste.
-
-> [!IMPORTANT]
-> O banco de dados original (`data/nolimits_ai.db`) está devidamente configurado no `.gitignore` e **nunca** deve ser submetido ao controle de versão.
+- [Portfólio Pessoal](https://github.com/igortude)
+- [LinkedIn](https://www.linkedin.com/in/seuconfirmar)
+- [E-mail](mailto:seuemail@exemplo.com)
 
 ---
-
-## 📂 Estrutura do Projeto
-
-```text
-├── app.py              # Ponto de entrada (Streamlit)
-├── app/                # Lógica de styles e assets
-├── dashboard/          # Módulos das abas e painéis
-├── data/               # Bancos de dados e scripts SQL
-├── scripts_ia/         # Lógica e contextos da IA
-├── anonimizar_dados.py # Script de segurança de dados
-└── requirements.txt    # Dependências do projeto
-```
-
----
-
-## 👥 Desenvolvedor
-- Igor
----
-*Este projeto foi desenvolvido para otimizar a gestão e análise de desempenho do CT NoLimits.*
+*Este projeto é uma prova técnica de ponta a ponta, unindo Engenharia de Dados, Analytics e Inteligência Artificial.*

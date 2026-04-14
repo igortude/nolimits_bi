@@ -13,6 +13,12 @@ from .queries.alunos import (
     data_maxima,
     get_media_faltas_top_10
 )
+from .queries.business import (
+    get_faturamento_total,
+    get_ticket_medio,
+    get_churn_rate,
+    get_frequencia_vs_churn
+)
 
 def render():
     # Exibe a logo original
@@ -21,6 +27,9 @@ def render():
         st.image("dashboard/logo.png", use_container_width=True)
 
     st.header("📊 NoLimits DashBoard")
+    
+    # KPIs de Negócio no Topo
+    render_kpis_negocio()
     
     # Uso de Tabs para separar o "Bom" do "Preocupante"
     tab_geral, tab_alerta = st.tabs(["📈 Engajamento", "⚠️ Atenção / Churn"])
@@ -46,6 +55,9 @@ def render():
                 - Verificar se houve lesão ou problema financeiro.
                 - Oferecer desconto em plano 'maior'.
             """)
+        
+        st.subheader("📉 Engajamento: Ativos vs Cancelados")
+        render_grafico_freq_churn()
 
 total_alunos = get_total_alunos()
 a_ativos = get_alunos_ativos(data_maxima)
@@ -150,3 +162,35 @@ def render_cards_planos():
     col2.metric("Mensal 2x", planos.get("Mensal 2x", 0))
     col3.metric("Mensal 3x", planos.get("Mensal 3x", 0))
     col4.metric("Mensal Ilimitado", planos.get("Mensal Ilimitado", 0))
+
+def render_kpis_negocio():
+    faturamento = get_faturamento_total()
+    ticket = get_ticket_medio()
+    churn = get_churn_rate()
+    
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Churn Rate", f"{churn:.1f}%", delta="Crítico" if churn > 20 else "Saudável", delta_color="inverse")
+    c2.metric("Receita Total", f"R$ {faturamento:,.0f}")
+    c3.metric("Ticket Médio", f"R$ {ticket:,.2f}")
+    c4.metric("Total Alunos", total_alunos)
+
+def render_grafico_freq_churn():
+    dados = get_frequencia_vs_churn()
+    if not dados:
+        st.warning("Sem dados de frequência comparativa.")
+        return
+        
+    df = pd.DataFrame([
+        {"Status": "Ativo" if k == 'ativo' else "Cancelado", "Frequência Média": v}
+        for k, v in dados.items()
+    ])
+    
+    fig = px.bar(
+        df, x="Status", y="Frequência Média",
+        color="Status",
+        color_discrete_map={"Ativo": "#27b530", "Cancelado": "#ff4b4b"},
+        text_auto='.1f',
+        title="Frequência Média de Treinos (Histórico)"
+    )
+    fig.update_layout(showlegend=False, height=350)
+    st.plotly_chart(fig, use_container_width=True)
