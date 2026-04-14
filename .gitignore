@@ -1,0 +1,42 @@
+# Ambientes Virtuais
+venv/
+.venv/
+env/
+bin/
+lib/
+share/
+
+# Cache de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Bancos de Dados
+*.db
+*.sqlite3
+# Exceção para o banco público/demonstração
+!data/nolimits_ai_public.db
+
+# Backups e Arquivos de Dados
+data/backups/
+*.zip
+*.bak
+*.csv
+*.xlsx
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema
+.DS_Store
+Thumbs.db

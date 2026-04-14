@@ -1,0 +1,284 @@
+/* =========================================================
+   NoLimits - custom.css (REESCRITO)
+   ========================================================= */
+
+/* ================================
+   Variáveis de tema (opcional)
+   ================================ */
+:root{
+  --nl-green: #34e89e;
+  --nl-dark: #0f3443;
+  --nl-gray: #434343;
+
+  --card-bg: #1e1e1e;
+  --text: #ffffff;
+  --muted: #cccccc;
+
+  --shadow: 0 3px 8px rgba(0,0,0,0.28);
+}
+
+/* ================================
+   LOGO
+   ================================ */
+.header-logo{
+  display: block;
+  margin: 0 auto 12px auto;
+  width: 130px;
+  height: auto;
+}
+
+/* ================================
+   HEADERS (tela inicial)
+   ================================ */
+h1.header-inicial{
+  font-family: Arial, sans-serif;
+  font-size: 2rem;
+  color: var(--nl-green);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+h5.inicial{
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* ================================
+   DASHBOARD CONTAINER (fade in)
+   ================================ */
+.dashboard-container{
+  animation: fadeIn 0.6s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes fadeIn{
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   TABS - underline gradiente (cinza -> verde)
+   Aplica tanto nas tabs principais quanto nas internas.
+   ================================ */
+
+/* garante posicionamento para pseudo-elemento */
+div[data-baseweb="tab-list"] button[role="tab"]{
+  position: relative;
+  border-bottom: 0 !important; /* remove underline padrão */
+}
+
+/* underline custom no tab ativo */
+div[data-baseweb="tab-list"] button[role="tab"][aria-selected="true"]::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  background: linear-gradient(to right, var(--nl-gray), var(--nl-green));
+  border-radius: 3px;
+}
+
+/* ================================
+   CARDS - MÉTRICAS (menores + fontes menores)
+   ================================ */
+div[data-testid="stMetric"] > div{
+  background-color: var(--card-bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;          /* menor */
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+div[data-testid="stMetric"] > div:hover{
+  transform: translateY(-2px);
+}
+
+/* label (título) menor */
+div[data-testid="stMetricLabel"] p{
+  font-size: 0.78rem !important;
+  opacity: 0.90;
+}
+
+/* valor menor */
+div[data-testid="stMetricValue"]{
+  font-size: 1.55rem !important;
+  line-height: 1.1 !important;
+}
+
+/* delta menor */
+div[data-testid="stMetricDelta"]{
+  font-size: 0.75rem !important;
+}
+
+/* ================================
+   CARDS (stMetric) - gradiente #232526 -> #414345 -> #232526
+   ================================ */
+div[data-testid="stMetric"] > div{
+  background-image: linear-gradient(to right, #191a1b 0%, #414345 51%, #232526 100%);
+  margin: 10px;
+  padding: 15px 20px;           /* menos padding lateral */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #35cd37;
+  box-shadow: 0 0 20px #1c8511;
+  border-radius: 10px;
+
+  /* 🔥 ESSENCIAL */
+  height: 140px;                /* fixa altura */
+  display: flex;                /* flex layout */
+  flex-direction: column;
+  justify-content: center;      /* centraliza verticalmente */
+}
+
+div[data-testid="stMetricDelta"]{
+  display: inline-flex !important;   /* não estica */
+  width: fit-content !important;     /* só o texto */
+  
+  padding: 2px 6px !important;       /* badge compacto */
+  margin-top: 6px;
+
+  font-size: 0.70rem !important;
+  font-weight: 500;
+  line-height: 1 !important;
+
+  align-self: center;                /* centraliza no card */
+  justify-content: center;
+
+  opacity: 0.85;
+  border-radius: 6px;
+}
+
+
+/* ================================
+   BOTÕES GRADIENTE (classe .btn-grad)
+   ================================ */
+.btn-grad{
+  background-image: linear-gradient(to right, var(--nl-green) 0%, var(--nl-dark) 51%, var(--nl-green) 100%);
+  margin: 10px;
+  padding: 12px 40px;     /* ajuste fino */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(255,255,255,0.15);
+  border-radius: 10px;
+  display: block;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.btn-grad:hover{
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Se quiser o outro gradiente (56ab2f / a8e063), troque o background-image acima por:
+   background-image: linear-gradient(to right, #56ab2f 0%, #a8e063 51%, #56ab2f 100%);
+*/
+
+/* ================================
+   TEXT INPUT (Login) - borda verde + glow no foco
+   Requer: st.text_input("Nome", ..., label_visibility="collapsed")
+   ================================ */
+
+/* Streamlit desenha a borda geralmente no wrapper BaseWeb */
+div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within,
+div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within{
+  border-color: var(--nl-green) !important;
+  box-shadow: 0 0 0 3px rgba(52, 232, 158, 0.22),
+              0 0 14px rgba(52, 232, 158, 0.55) !important;
+}
+
+/* remove outline padrão do input */
+div[data-testid="stTextInput"] input:focus{
+  outline: none !important;
+}
+
+/* ================================
+   TABS - underline (highlight) gradiente
+   ================================ */
+
+/* Remove qualquer sublinhado/borda no tab em si */
+div[data-testid="stTabs"] button[role="tab"]{
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* O underline REAL (BaseWeb) costuma ser esse tab-highlight */
+div[data-testid="stTabs"] div[data-baseweb="tab-highlight"],
+div[data-testid="stTabs"] span[data-baseweb="tab-highlight"]{
+  background: linear-gradient(to right, #434343, #34e89e) !important;
+  height: 3px !important;
+}
+
+/* Em algumas versões, existe um "tab-border" que interfere */
+div[data-testid="stTabs"] div[data-baseweb="tab-border"],
+div[data-testid="stTabs"] span[data-baseweb="tab-border"]{
+  background: transparent !important;
+}
+
+/* ================================
+   TABS - cor do texto (remove vermelho)
+   ================================ */
+
+/* Cor padrão (tabs não selecionadas) */
+div[data-testid="stTabs"] button[role="tab"]{
+  color: #cfcfcf !important;
+}
+
+/* Garante que o texto interno herde a cor (algumas versões usam <p>, <span>, etc.) */
+div[data-testid="stTabs"] button[role="tab"] *{
+  color: inherit !important;
+}
+
+/* Tab ativa */
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"]{
+  color: #34e89e !important;
+  font-weight: 600;
+}
+
+/* Hover (opcional) */
+div[data-testid="stTabs"] button[role="tab"]:hover{
+  color: #e8e8e8 !important;
+}
+
+/* ================================
+   TABS - animações mais fluidas
+   ================================ */
+
+/* 1) Barrinha (highlight) com easing mais suave e mais lenta */
+div[data-testid="stTabs"] div[data-baseweb="tab-highlight"],
+div[data-testid="stTabs"] span[data-baseweb="tab-highlight"]{
+  transition: transform 520ms cubic-bezier(.22, 1, .36, 1),
+              width     520ms cubic-bezier(.22, 1, .36, 1),
+              left      520ms cubic-bezier(.22, 1, .36, 1),
+              right     520ms cubic-bezier(.22, 1, .36, 1) !important;
+  will-change: transform, width, left, right;
+}
+
+/* 2) Texto das tabs com transição suave + feedback no clique */
+div[data-testid="stTabs"] button[role="tab"]{
+  transition: color 220ms ease, transform 140ms ease !important;
+}
+
+div[data-testid="stTabs"] button[role="tab"]:active{
+  transform: scale(0.97);
+}
+
+/* 3) Conteúdo do painel: entra com fade + leve slide (tira sensação de “corte”) */
+div[data-testid="stTabs"] [role="tabpanel"]{
+  animation: tabPanelIn 180ms ease-out;
+}
+
+@keyframes tabPanelIn{
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
