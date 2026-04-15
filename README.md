@@ -102,8 +102,8 @@ Após a análise dos dados e execução do modelo, os seguintes resultados foram
 Desenvolvido por **Igor** – *Analista de Dados & Desenvolvedor*
 
 - [Portfólio Pessoal](https://github.com/igortude)
-- [LinkedIn](https://www.linkedin.com/in/seuconfirmar)
-- [E-mail](mailto:seuemail@exemplo.com)
+- [LinkedIn](https://www.linkedin.com/in/igor-tude-309480299/)
+- [E-mail](mailto:igortude@hotmail.com)
 
 ---
 *Este projeto é uma prova técnica de ponta a ponta, unindo Engenharia de Dados, Analytics e Inteligência Artificial.*
